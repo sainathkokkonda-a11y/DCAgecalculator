@@ -1,0 +1,242 @@
+<style>
+  .global-age-container {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .global-age-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    margin: 20px auto;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(13, 71, 161, 0.15);
+    border: 2px solid #1976d2;
+    overflow: hidden;
+  }
+  
+  .global-age-header {
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    color: #ffffff;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  
+  .global-age-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  .global-age-header p {
+    margin: 6px 0 0 0;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  
+  .global-age-body {
+    padding: 24px 20px;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0d47a1;
+    margin-bottom: 8px;
+  }
+  
+  .global-input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 2px solid #bbdefb;
+    border-radius: 8px;
+    outline: none;
+    color: #0d47a1;
+    font-weight: 600;
+    box-sizing: border-box;
+    background-color: #ffffff;
+  }
+  
+  .global-input:focus {
+    border-color: #1976d2;
+  }
+  
+  .btn-calculate {
+    width: 100%;
+    background: #1976d2;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3);
+  }
+  
+  .btn-calculate:hover {
+    background: #0d47a1;
+  }
+  
+  .btn-calculate:active {
+    transform: scale(0.98);
+  }
+  
+  .result-box {
+    margin-top: 24px;
+    background: #e3f2fd;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #90caf9;
+  }
+  
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed #90caf9;
+  }
+  
+  .result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .result-label {
+    font-size: 14px;
+    color: #1565c0;
+    font-weight: 600;
+  }
+  
+  .result-value {
+    font-size: 15px;
+    color: #0d47a1;
+    font-weight: 700;
+  }
+  
+  .highlight-age {
+    background: #1976d2;
+    color: #ffffff;
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .highlight-age .result-label {
+    color: #bbdefb;
+  }
+  
+  .highlight-age .result-value {
+    color: #ffffff;
+    font-size: 18px;
+  }
+</style>
+
+<div class="global-age-container">
+  <div class="global-age-card">
+    <div class="global-age-header">
+      <h2>Age Calculator</h2>
+      <p>Calculate your exact age in years, months & days</p>
+    </div>
+    
+    <div class="global-age-body">
+      <div class="input-group">
+        <label for="birthDate">Date of Birth</label>
+        <input type="date" id="birthDate" class="global-input">
+      </div>
+
+      <div class="input-group">
+        <label for="targetDate">Age at Date of</label>
+        <input type="date" id="targetDate" class="global-input">
+      </div>
+
+      <button class="btn-calculate" onclick="calculateAge()">Calculate Age</button>
+
+      <div class="result-box">
+        <div class="result-item highlight-age">
+          <span class="result-label">Your Exact Age:</span>
+          <span class="result-value" id="exactAgeResult">Select Date of Birth</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Total Months:</span>
+          <span class="result-value" id="totalMonths">--</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Total Weeks:</span>
+          <span class="result-value" id="totalWeeks">--</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Total Days:</span>
+          <span class="result-value" id="totalDays">--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setDefaultDates() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('targetDate').value = today;
+
+    const defaultDob = new Date();
+    defaultDob.setFullYear(defaultDob.getFullYear() - 25);
+    document.getElementById('birthDate').value = defaultDob.toISOString().split('T')[0];
+  }
+
+  function calculateAge() {
+    const dobInput = document.getElementById('birthDate').value;
+    const targetInput = document.getElementById('targetDate').value;
+
+    if (!dobInput || !targetInput) {
+      alert("Please select both Date of Birth and Target Date.");
+      return;
+    }
+
+    const dob = new Date(dobInput);
+    const target = new Date(targetInput);
+
+    if (dob > target) {
+      alert("Date of Birth cannot be after Target Date.");
+      return;
+    }
+
+    let years = target.getFullYear() - dob.getFullYear();
+    let months = target.getMonth() - dob.getMonth();
+    let days = target.getDate() - dob.getDate();
+
+    if (days < 0) {
+      months--;
+      const lastMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+      days += lastMonth.getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    // Total Calculations
+    const diffTime = Math.abs(target - dob);
+    const totalDaysVal = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const totalWeeksVal = (totalDaysVal / 7).toFixed(1);
+    const totalMonthsVal = (years * 12) + months;
+
+    document.getElementById('exactAgeResult').innerText = `${years} Years, ${months} Months, ${days} Days`;
+    document.getElementById('totalMonths').innerText = `${totalMonthsVal} Months`;
+    document.getElementById('totalWeeks').innerText = `${totalWeeksVal} Weeks`;
+    document.getElementById('totalDays').innerText = `${totalDaysVal.toLocaleString()} Days`;
+  }
+
+  // Load defaults and calculate initial age
+  setDefaultDates();
+  calculateAge();
+</script>
