@@ -1,0 +1,41 @@
+<div class="global-age-container">
+  <div class="global-age-card">
+    <div class="global-age-header">
+      <h2>Age Calculator</h2>
+      <p>Calculate your exact age in years, months & days</p>
+    </div>
+    
+    <div class="global-age-body">
+      <div class="input-group">
+        <label for="birthDate">Date of Birth</label>
+        <input type="date" id="birthDate" class="global-input">
+      </div>
+
+      <div class="input-group">
+        <label for="targetDate">Age at Date of</label>
+        <input type="date" id="targetDate" class="global-input">
+      </div>
+
+      <button class="btn-calculate" onclick="calculateAge()">Calculate Age</button>
+
+      <div class="result-box">
+        <div class="result-item highlight-age">
+          <span class="result-label">Your Exact Age:</span>
+          <span class="result-value" id="exactAgeResult">Select Date of Birth</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Total Months:</span>
+          <span class="result-value" id="totalMonths">--</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Total Weeks:</span>
+          <span class="result-value" id="totalWeeks">--</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Total Days:</span>
+          <span class="result-value" id="totalDays">--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
